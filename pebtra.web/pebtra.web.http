@@ -1,0 +1,21 @@
+@pebtra_web_HostAddress = http://localhost:5083
+
+# Upload file
+POST {{pebtra_web_HostAddress}}/import/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="files"; filename="sample1.txt"
+Content-Type: text/plain
+
+Sample file content 1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="files"; filename="sample2.txt"
+Content-Type: text/plain
+
+Sample file content 2
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+# Get uploaded files
+GET {{pebtra_web_HostAddress}}/import/get

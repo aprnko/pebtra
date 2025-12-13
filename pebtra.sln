@@ -1,0 +1,33 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.web", "pebtra.web\pebtra.web.csproj", "{26F00862-B97D-40BD-AC9B-B4E439D2047B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.util", "pebtra.util\pebtra.util.csproj", "{B4E08059-C35F-468A-90EA-A228069D5B39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.util.tests", "pebtra.util.tests\pebtra.util.tests.csproj", "{C5E08059-C35F-468A-90EA-A228069D5B40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E08059-C35F-468A-90EA-A228069D5B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E08059-C35F-468A-90EA-A228069D5B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E08059-C35F-468A-90EA-A228069D5B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E08059-C35F-468A-90EA-A228069D5B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5E08059-C35F-468A-90EA-A228069D5B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E08059-C35F-468A-90EA-A228069D5B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E08059-C35F-468A-90EA-A228069D5B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E08059-C35F-468A-90EA-A228069D5B40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
