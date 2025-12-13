@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pebtra.Util;
+namespace Pebtra.Core;
 
 public interface IStatementFileReader
 {

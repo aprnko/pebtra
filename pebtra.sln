@@ -1,33 +1,45 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.web", "pebtra.web\pebtra.web.csproj", "{26F00862-B97D-40BD-AC9B-B4E439D2047B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.util", "pebtra.util\pebtra.util.csproj", "{B4E08059-C35F-468A-90EA-A228069D5B39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.DAL", "pebtra.DAL\pebtra.DAL.csproj", "{B2E771B0-E5F9-B985-A316-8F667F9522B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.util.tests", "pebtra.util.tests\pebtra.util.tests.csproj", "{C5E08059-C35F-468A-90EA-A228069D5B40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.core", "pebtra.core\pebtra.core.csproj", "{747C50CD-EBD8-4D27-B5A1-4DE71EA44708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.cli", "pebtra.cli\pebtra.cli.csproj", "{A6B38308-7DA4-5634-8F69-7354F0D978CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pebtra.core.tests", "pebtra.core.tests\pebtra.core.tests.csproj", "{29093308-D9DA-7E69-B97A-1C5F6630A96A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2E771B0-E5F9-B985-A316-8F667F9522B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E771B0-E5F9-B985-A316-8F667F9522B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E771B0-E5F9-B985-A316-8F667F9522B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E771B0-E5F9-B985-A316-8F667F9522B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{747C50CD-EBD8-4D27-B5A1-4DE71EA44708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{747C50CD-EBD8-4D27-B5A1-4DE71EA44708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{747C50CD-EBD8-4D27-B5A1-4DE71EA44708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{747C50CD-EBD8-4D27-B5A1-4DE71EA44708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B38308-7DA4-5634-8F69-7354F0D978CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B38308-7DA4-5634-8F69-7354F0D978CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B38308-7DA4-5634-8F69-7354F0D978CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B38308-7DA4-5634-8F69-7354F0D978CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29093308-D9DA-7E69-B97A-1C5F6630A96A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29093308-D9DA-7E69-B97A-1C5F6630A96A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29093308-D9DA-7E69-B97A-1C5F6630A96A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29093308-D9DA-7E69-B97A-1C5F6630A96A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26F00862-B97D-40BD-AC9B-B4E439D2047B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4E08059-C35F-468A-90EA-A228069D5B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4E08059-C35F-468A-90EA-A228069D5B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4E08059-C35F-468A-90EA-A228069D5B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4E08059-C35F-468A-90EA-A228069D5B39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5E08059-C35F-468A-90EA-A228069D5B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5E08059-C35F-468A-90EA-A228069D5B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5E08059-C35F-468A-90EA-A228069D5B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5E08059-C35F-468A-90EA-A228069D5B40}.Release|Any CPU.Build.0 = Release|Any CPU
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB2C2A86-2FB7-47A9-8791-FB96D4901603}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-namespace Pebtra.Util;
+namespace Pebtra.Core;
 
 public class ImportedTransaction
 {

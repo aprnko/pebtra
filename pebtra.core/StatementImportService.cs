@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 using pebtra.DAL.Repositories;
 using pebtra.DAL;
-using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Pebtra.Util;
+namespace Pebtra.Core;
 
 public class StatementImportService
 {

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\pebtra.util\pebtra.util.csproj" />
+    <ProjectReference Include="..\Pebtra.Core\Pebtra.Core.csproj" />
   </ItemGroup>
 
 </Project>

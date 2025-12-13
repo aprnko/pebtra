@@ -6,7 +6,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
-namespace Pebtra.Util;
+namespace Pebtra.Core;
 
 public class XlsFileReader : IStatementFileReader
 {

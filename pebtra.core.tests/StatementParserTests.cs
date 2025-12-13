@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Pebtra.Util.Tests;
+namespace Pebtra.Core.Tests;
 
 [TestFixture]
 public class StatementParserTests

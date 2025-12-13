@@ -3,11 +3,9 @@ using System.CommandLine.Invocation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
 using pebtra.DAL;
-using pebtra.DAL.Repositories;
+using Pebtra.Core;
 
 namespace Pebtra.Util;
 
@@ -17,8 +15,7 @@ class Program
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddEnvironmentVariables()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)            
             .Build();
 
         var services = new ServiceCollection();
@@ -88,7 +85,7 @@ class Program
         {
             using var scope = serviceProvider.CreateScope();
             var fetchService = scope.ServiceProvider.GetRequiredService<CurrencyRateFetchService>();
-            FetchData(fetchService);
+            FetchCurrencyRates(fetchService);
         });
 
         // var categorizeCommand = new Command("categorize", "Categorize existing data");
@@ -120,7 +117,7 @@ class Program
         importService.ExtractText(filename);
     }
 
-    static void FetchData(CurrencyRateFetchService fetchService)
+    static void FetchCurrencyRates(CurrencyRateFetchService fetchService)
     {
         fetchService.Fetch().GetAwaiter().GetResult();
     }

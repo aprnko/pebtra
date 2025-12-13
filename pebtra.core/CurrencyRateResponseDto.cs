@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Pebtra.Util;
+namespace Pebtra.Core;
 
 public class CurrencyRateResponseDto
 {

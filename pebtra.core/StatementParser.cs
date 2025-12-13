@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using Microsoft.Extensions.Logging;
 
-namespace Pebtra.Util;
+namespace Pebtra.Core;
 
 public class StatementParser
 {
