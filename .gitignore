@@ -375,3 +375,4 @@ FodyWeavers.xsd
 /Tools/ImagingDiCViewer/Pictures
 /ProductConfiguration/SCProductConfigurationSheet.xml
 /ProductConfiguration/IAProductConfigurationSheet.xml
+/pebtra.cli/appsettings.dev.json
