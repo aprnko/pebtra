@@ -1,4 +1,4 @@
-namespace Pebtra.Core;
+namespace pebtra.core.Dto;
 
 public enum ImportedTransactionFieldType
 {

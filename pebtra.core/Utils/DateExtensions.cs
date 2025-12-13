@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Pebtra.Core;
+namespace pebtra.core.Utils;
 
 public static class DateExtensions
 {

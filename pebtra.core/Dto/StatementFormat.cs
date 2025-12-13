@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pebtra.Core;
+namespace pebtra.core.Dto;
 
 public class StatementFormat
 {
