@@ -36,6 +36,8 @@ public class CurrencyRateFetchService
             throw new InvalidOperationException("No quote currencies found");
         }
 
+        // todo: If there are no rates for a certain currency yet, no max date will be found for it, and the rates for that currency won't get fetched.
+
         var perCurrencyMaxDates = await _dbContext.CurrencyRates.GroupBy(r => r.QuoteCurrencyId).Select(g => g.Max(r => r.Date))
             .ToListAsync();
 
@@ -104,7 +106,8 @@ public class CurrencyRateFetchService
         var startDateString = startDate.ToString("yyyy-MM-dd");
         var endDateString = endDate.ToString("yyyy-MM-dd");
 
-        var url =            
+        // todo: exchangerate.host returns HTTP 400 if range between start and end dates is larger than one year.
+        var url =
             $"https://api.exchangerate.host/timeframe?start_date={startDateString}&end_date={endDateString}&source={baseCurrency}&currencies={targetCurrenciesString}&access_key={apiKey}";
 
         CurrencyRateResponseDto? result;
@@ -115,7 +118,7 @@ public class CurrencyRateFetchService
             response.EnsureSuccessStatusCode();
 
             var jsonContent = await response.Content.ReadAsStringAsync();
-            _logger.LogDebug("Currency rates raw JSON: {Json}", jsonContent);
+            _logger.LogInformation("Currency rates raw JSON: {Json}", jsonContent);
 
             var options = new JsonSerializerOptions
             {

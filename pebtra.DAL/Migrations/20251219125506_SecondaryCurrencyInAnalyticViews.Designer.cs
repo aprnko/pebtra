@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pebtra.DAL;
 
@@ -11,9 +12,11 @@ using pebtra.DAL;
 namespace pebtra.DAL.Migrations
 {
     [DbContext(typeof(FinContext))]
-    partial class FinContextModelSnapshot : ModelSnapshot
+    [Migration("20251219125506_SecondaryCurrencyInAnalyticViews")]
+    partial class SecondaryCurrencyInAnalyticViews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
