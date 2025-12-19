@@ -14,8 +14,9 @@ namespace pebtra.DAL
 
         public required string Id { get; set; }
         public bool IsBase { get; set; }
+        public bool IsSecondary { get; set; }
 
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<Account> Accounts { get; set; }        
         public virtual ICollection<CurrencyRate> CurrencyRateBaseCurrencies { get; set; }
         public virtual ICollection<CurrencyRate> CurrencyRateQuoteCurrencies { get; set; }
     }
