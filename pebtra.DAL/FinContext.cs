@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace pebtra.DAL
+namespace Pebtra.DAL
 {
     public partial class FinContext : DbContext
     {

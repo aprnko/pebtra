@@ -2,11 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using pebtra.DAL;
-using pebtra.core.Utils;
-using pebtra.core.Dto;
+using Pebtra.DAL;
+using Pebtra.Core.Utils;
+using Pebtra.Core.Dto;
 
-namespace pebtra.core;
+namespace Pebtra.Core;
 
 public class CurrencyRateFetchService
 {

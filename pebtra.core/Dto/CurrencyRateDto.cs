@@ -1,4 +1,4 @@
-namespace pebtra.core.Dto;
+namespace Pebtra.Core.Dto;
 
 public class CurrencyRateDto
 {

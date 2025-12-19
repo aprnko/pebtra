@@ -1,4 +1,4 @@
-namespace pebtra.core.Utils;
+namespace Pebtra.Core.Utils;
 
 public static class StringExtensions
 {

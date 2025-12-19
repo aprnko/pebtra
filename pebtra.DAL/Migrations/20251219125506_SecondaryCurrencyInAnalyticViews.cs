@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace pebtra.DAL.Migrations
+namespace Pebtra.DAL.Migrations
 {
     /// <inheritdoc />
     public partial class SecondaryCurrencyInAnalyticViews : Migration

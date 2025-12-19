@@ -6,7 +6,7 @@ using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 
-namespace pebtra.core;
+namespace Pebtra.Core;
 
 public class PdfFileReader : IStatementFileReader
 {

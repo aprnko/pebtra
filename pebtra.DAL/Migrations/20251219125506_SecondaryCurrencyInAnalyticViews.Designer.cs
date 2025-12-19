@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using pebtra.DAL;
+using Pebtra.DAL;
 
 #nullable disable
 
-namespace pebtra.DAL.Migrations
+namespace Pebtra.DAL.Migrations
 {
     [DbContext(typeof(FinContext))]
     [Migration("20251219125506_SecondaryCurrencyInAnalyticViews")]

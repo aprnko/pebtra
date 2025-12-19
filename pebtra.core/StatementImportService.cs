@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
-using pebtra.DAL.Repositories;
-using pebtra.DAL;
-using pebtra.core.Dto;
+using Pebtra.DAL.Repositories;
+using Pebtra.DAL;
+using Pebtra.Core.Dto;
 
-namespace pebtra.core;
+namespace Pebtra.Core;
 
 public class StatementImportService(ITransactionRepository transactionRepository, StatementFileReaderFactory statementFileReaderFactory, 
     ILogger logger, ILoggerFactory loggerFactory)

@@ -4,10 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using pebtra.DAL;
-using pebtra.core;
+using Pebtra.DAL;
+using Pebtra.Core;
 
-namespace pebtra.Util;
+namespace Pebtra.Util;
 
 class Program
 {

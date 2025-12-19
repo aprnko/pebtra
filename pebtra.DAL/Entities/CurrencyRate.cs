@@ -1,6 +1,6 @@
 using System;
 
-namespace pebtra.DAL
+namespace Pebtra.DAL
 {
     public partial class CurrencyRate
     {

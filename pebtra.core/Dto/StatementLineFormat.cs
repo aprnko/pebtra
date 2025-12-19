@@ -1,6 +1,6 @@
 using System;
 
-namespace pebtra.core.Dto;
+namespace Pebtra.Core.Dto;
 
 // Define a delegate type for the field mapping function
 public delegate void FieldMapper(ImportedTransaction transaction, string value, StatementFormat format);

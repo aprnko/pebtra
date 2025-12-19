@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using Microsoft.Extensions.Logging;
-using pebtra.core.Dto;
+using Pebtra.Core.Dto;
 
-namespace pebtra.core;
+namespace Pebtra.Core;
 
 public class StatementParser
 {

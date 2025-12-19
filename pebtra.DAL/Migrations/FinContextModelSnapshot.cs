@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using pebtra.DAL;
+using Pebtra.DAL;
 
 #nullable disable
 
-namespace pebtra.DAL.Migrations
+namespace Pebtra.DAL.Migrations
 {
     [DbContext(typeof(FinContext))]
     partial class FinContextModelSnapshot : ModelSnapshot

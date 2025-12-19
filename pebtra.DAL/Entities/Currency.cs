@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace pebtra.DAL
+namespace Pebtra.DAL
 {
     public partial class Currency
     {

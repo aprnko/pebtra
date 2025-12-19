@@ -1,10 +1,10 @@
-using pebtra.core.Dto;
-using pebtra.core.Utils;
+using Pebtra.Core.Dto;
+using Pebtra.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace pebtra.core;
+namespace Pebtra.Core;
 
 public class StatementFormatProvider
 {

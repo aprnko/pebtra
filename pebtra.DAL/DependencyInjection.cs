@@ -2,9 +2,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using pebtra.DAL.Repositories;
+using Pebtra.DAL.Repositories;
 
-namespace pebtra.DAL
+namespace Pebtra.DAL
 {
     public static class DependencyInjection
     {

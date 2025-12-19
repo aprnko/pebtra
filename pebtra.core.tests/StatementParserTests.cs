@@ -1,11 +1,11 @@
 using NUnit.Framework;
-using pebtra.core.Dto;
+using Pebtra.Core.Dto;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace pebtra.core.Tests;
+namespace Pebtra.Core.Tests;
 
 [TestFixture]
 public class StatementParserTests

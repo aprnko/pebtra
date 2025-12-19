@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using pebtra.DAL;
+using Pebtra.DAL;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace pebtra.DAL.Repositories
+namespace Pebtra.DAL.Repositories
 {
     public interface ITransactionRepository
     {

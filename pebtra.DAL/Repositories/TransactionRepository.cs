@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Ardalis.GuardClauses;
 
-namespace pebtra.DAL.Repositories
+namespace Pebtra.DAL.Repositories
 {
     public class TransactionRepository : ITransactionRepository
     {
