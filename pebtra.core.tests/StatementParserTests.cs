@@ -5,35 +5,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Pebtra.Core.Tests;
+namespace pebtra.core.Tests;
 
 [TestFixture]
 public class StatementParserTests
 {
     private PdfFileReader _pdfReader;
-    private StatementFormat _kaspiFormat;
-    private StatementFormat _berekeFormat;
-    private StatementFormat _homeCreditFormat;
-    private StatementFormat _sberFormat;
-    private StatementFormat _tinkoffFormat;
-    private StatementFormat _kaspiDepositFormat;
-    private StatementFormat _homeCreditDepositFormat;
-    private StatementFormat _berekeDepositFormat;
-
+    private StatementFormatProvider _formatProvider;
     [SetUp]
     public void Setup()
     {
         _pdfReader = new PdfFileReader();
-        var formatProvider = new StatementFormatProvider();
-        // Store a reference to the formats from the provider
-        _kaspiFormat = formatProvider.Get("Kaspi");
-        _berekeFormat = formatProvider.Get("Bereke");
-        _homeCreditFormat = formatProvider.Get("HomeCredit");
-        _sberFormat = formatProvider.Get("Sber");
-        _tinkoffFormat = formatProvider.Get("Tinkoff");
-        _kaspiDepositFormat = formatProvider.Get("KaspiDeposit");
-        _homeCreditDepositFormat = formatProvider.Get("HomeCreditDeposit");
-        _berekeDepositFormat = formatProvider.Get("BerekeDeposit");
+        _formatProvider = new StatementFormatProvider();        
     }
 
     #region General Tests
@@ -44,7 +27,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiFormat
+            Format = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new string[0];
 
@@ -58,13 +41,15 @@ public class StatementParserTests
     [Test]
     public void Parse_IsReverseOrderTrue_ReturnsTransactionsInReversedOrder()
     {
+        var kaspiFormat = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing");
+
         // Arrange
         var modifiedFormat = new StatementFormat
-        {
-            LineFormats = _kaspiFormat.LineFormats,
-            DateFormat = _kaspiFormat.DateFormat,
-            NumberFormat = _kaspiFormat.NumberFormat,
-            NumberCulture = _kaspiFormat.NumberCulture,
+        {          
+            LineFormats = kaspiFormat.LineFormats,
+            DateFormat = kaspiFormat.DateFormat,
+            NumberFormat = kaspiFormat.NumberFormat,
+            NumberCulture = kaspiFormat.NumberCulture,
             IsReverseOrder = true // Override to test reverse order
         };
         
@@ -109,7 +94,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiFormat
+            Format = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -139,7 +124,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiFormat
+            Format = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -168,7 +153,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiFormat
+            Format = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -211,7 +196,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiFormat
+            Format = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -242,7 +227,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiFormat
+            Format = _formatProvider.Get("Kaspi") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -300,7 +285,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeFormat
+            Format = _formatProvider.Get("Bereke") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -330,7 +315,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeFormat
+            Format = _formatProvider.Get("Bereke") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -383,7 +368,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeFormat
+            Format = _formatProvider.Get("Bereke") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -416,7 +401,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _homeCreditFormat
+            Format = _formatProvider.Get("HomeCredit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -447,7 +432,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _homeCreditFormat
+            Format = _formatProvider.Get("HomeCredit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -505,7 +490,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _homeCreditFormat
+            Format = _formatProvider.Get("HomeCredit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -540,7 +525,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _sberFormat
+            Format = _formatProvider.Get("Sber") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -570,7 +555,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _sberFormat
+            Format = _formatProvider.Get("Sber") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -598,7 +583,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _sberFormat
+            Format = _formatProvider.Get("Sber") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -643,7 +628,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _tinkoffFormat
+            Format = _formatProvider.Get("Tinkoff") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -672,7 +657,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _tinkoffFormat
+            Format = _formatProvider.Get("Tinkoff") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -703,7 +688,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _tinkoffFormat
+            Format = _formatProvider.Get("Tinkoff") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -732,7 +717,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _tinkoffFormat
+            Format = _formatProvider.Get("Tinkoff") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -762,7 +747,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _tinkoffFormat
+            Format = _formatProvider.Get("Tinkoff") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -809,7 +794,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiDepositFormat
+            Format = _formatProvider.Get("KaspiDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -839,7 +824,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiDepositFormat
+            Format = _formatProvider.Get("KaspiDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -868,7 +853,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _kaspiDepositFormat
+            Format = _formatProvider.Get("KaspiDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -914,7 +899,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _homeCreditDepositFormat
+            Format = _formatProvider.Get("HomeCreditDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -941,7 +926,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _homeCreditDepositFormat
+            Format = _formatProvider.Get("HomeCreditDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -968,7 +953,8 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _homeCreditDepositFormat
+            Format = _formatProvider.Get("HomeCreditDeposit")
+                ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1018,7 +1004,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeDepositFormat
+            Format = _formatProvider.Get("BerekeDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1046,7 +1032,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeDepositFormat
+            Format = _formatProvider.Get("BerekeDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1077,7 +1063,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeDepositFormat
+            Format = _formatProvider.Get("BerekeDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1107,7 +1093,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeDepositFormat
+            Format = _formatProvider.Get("BerekeDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1141,7 +1127,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = _berekeDepositFormat
+            Format = _formatProvider.Get("BerekeDeposit") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1189,7 +1175,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = new StatementFormatProvider().Get("BCC")
+            Format = new StatementFormatProvider().Get("BCC") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1216,7 +1202,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = new StatementFormatProvider().Get("BCC")
+            Format = new StatementFormatProvider().Get("BCC") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {
@@ -1243,7 +1229,7 @@ public class StatementParserTests
         // Arrange
         var parser = new StatementParser
         {
-            Format = new StatementFormatProvider().Get("BCC")
+            Format = new StatementFormatProvider().Get("BCC") ?? throw new InvalidOperationException("Test prerequisite failed: format definition is missing")
         };
         var lines = new[]
         {

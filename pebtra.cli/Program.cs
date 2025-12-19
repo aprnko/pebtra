@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using pebtra.DAL;
-using Pebtra.Core;
+using pebtra.core;
 
-namespace Pebtra.Util;
+namespace pebtra.Util;
 
 class Program
 {
@@ -44,7 +44,8 @@ class Program
         services.AddSingleton<HttpClient>();
         
         services.AddScoped<StatementImportService>();
-        services.AddScoped<CurrencyRateFetchService>();
+        services.AddScoped<StatementFileReaderFactory>();
+        services.AddScoped<CurrencyRateFetchService>();        
 
         // Make the non-generic logger available (injected as ILogger logger) to avoid printing class names to the console.
         services.AddSingleton<ILogger>(sp =>
@@ -57,16 +58,13 @@ class Program
     
         var importCommand = new Command("import", "Import data from file");
         var fileOption = new Option<string>("--file", "File to import") { IsRequired = true };
-        var skipDuplicatesOption = new Option<bool>("--skip-duplicates", "Import statements containing already existing transactions, skip those transactions");
         importCommand.AddOption(fileOption);
-        importCommand.AddOption(skipDuplicatesOption);
         importCommand.SetHandler((InvocationContext context) =>
         {
             var file = context.ParseResult.GetValueForOption(fileOption)!;
-            var forceDuplicates = context.ParseResult.GetValueForOption(skipDuplicatesOption);
             using var scope = serviceProvider.CreateScope();
             var importService = scope.ServiceProvider.GetRequiredService<StatementImportService>();
-            ImportFile(importService, file, forceDuplicates);
+            ImportFile(importService, file);
         });
 
         var extractCommand = new Command("extract", "Extract and print plain text from a statement file");
@@ -107,9 +105,9 @@ class Program
         return result;
     }
 
-    static void ImportFile(StatementImportService importService, string filename, bool forceDuplicates = false)
+    static void ImportFile(StatementImportService importService, string filename)
     {
-        importService.ImportAsync(filename, forceDuplicates).GetAwaiter().GetResult();
+        importService.ImportAsync(filename).GetAwaiter().GetResult();
     }
 
     static void Extract(StatementImportService importService, string filename)

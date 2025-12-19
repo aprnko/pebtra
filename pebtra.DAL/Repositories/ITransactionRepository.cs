@@ -9,9 +9,10 @@ namespace pebtra.DAL.Repositories
     public interface ITransactionRepository
     {
         Task AddRangeAsync(IEnumerable<Transaction> transactions);
-        Task<bool> ExistsAsync(Transaction transaction);
+        Task<(IEnumerable<Transaction> New, IEnumerable<Transaction> Existing)> ClassifyByExistenceAsync(
+            IEnumerable<Transaction> incomingTransactions);
         Task<Account?> GetAccountAsync(string accountId);
-        Task<IEnumerable<Account>> GetAccountsWithUniqueStatementStringAsync();
+        Task<IEnumerable<Account>> GetAccountsWithStatementFormatsAsync();
         Task<IDbContextTransaction> BeginTransactionAsync();
     }
 } 

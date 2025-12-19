@@ -5,7 +5,7 @@ using System.Globalization;
 using Microsoft.Extensions.Logging;
 using pebtra.core.Dto;
 
-namespace Pebtra.Core;
+namespace pebtra.core;
 
 public class StatementParser
 {

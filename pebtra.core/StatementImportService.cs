@@ -1,182 +1,127 @@
 using Microsoft.Extensions.Logging;
 using pebtra.DAL.Repositories;
 using pebtra.DAL;
+using pebtra.core.Dto;
 
-namespace Pebtra.Core;
+namespace pebtra.core;
 
-public class StatementImportService
+public class StatementImportService(ITransactionRepository transactionRepository, StatementFileReaderFactory statementFileReaderFactory, 
+    ILogger logger, ILoggerFactory loggerFactory)
 {
-    private readonly StatementFormatProvider _formatProvider;
-    private readonly ITransactionRepository _transactionRepository;
-    private readonly ILogger _logger;
-    private readonly ILoggerFactory _loggerFactory;
-
-    public StatementImportService(ITransactionRepository transactionRepository, ILogger logger, ILoggerFactory loggerFactory)
-    {
-        _formatProvider = new StatementFormatProvider();
-        _transactionRepository = transactionRepository;
-        _logger = logger;
-        _loggerFactory = loggerFactory;
-    }
-
-    private IStatementFileReader GetReaderForFile(string filePath)
-    {
-        string extension = Path.GetExtension(filePath).ToLowerInvariant();
-        
-        return extension switch
-        {
-            ".pdf" => new PdfFileReader(),
-            ".xls" or ".xlsx" => new XlsFileReader(),
-            _ => throw new NotSupportedException($"File format {extension} is not supported.")
-        };
-    }
+    private readonly StatementFormatProvider _formatProvider = new StatementFormatProvider();    
 
     public void ExtractText(string filePath)
     {
-        var reader = GetReaderForFile(filePath);
+        var reader = statementFileReaderFactory.GetInstance(filePath);
         var lines = reader.Read(filePath);
-        _logger.LogInformation(string.Join("\n", lines));
+        logger.LogInformation(string.Join("\n", lines));
     }
 
-    public async Task ImportAsync(string filePath, bool forceImportSkipDuplicates = false)
+    public async Task ImportAsync(string filename)
     {
-        _logger.LogInformation("Importing file: {FilePath}", filePath);
+        logger.LogInformation("Importing file: {FilePath}", filename);
 
         bool isCommited = false;
-        using var dbContextTransaction = await _transactionRepository.BeginTransactionAsync();        
+        using var dbContextTransaction = await transactionRepository.BeginTransactionAsync();
         try
         {
-            // Read the file lines first to detect the account
-            var reader = GetReaderForFile(filePath);
-            var lines = reader.Read(filePath);
-            
-            // Get all accounts with non-null UniqueStatementString
-            var accountsWithUniqueString = await _transactionRepository.GetAccountsWithUniqueStatementStringAsync();
-            
-            string? accountId = null;
-            var matchingAccounts = new List<Account>();
-            
-            // Check each account's UniqueStatementString against the file lines
-            foreach (var accountWithString in accountsWithUniqueString)
-            {
-                if (accountWithString.UniqueStatementString != null && 
-                    lines.Any(line => line.Contains(accountWithString.UniqueStatementString)))
-                {
-                    matchingAccounts.Add(accountWithString);
-                }
-            }
-            
-            // Validate that exactly one account matches
+            var reader = statementFileReaderFactory.GetInstance(filename);
+            var lines = reader.Read(filename);
+
+            var accounts = await transactionRepository.GetAccountsWithStatementFormatsAsync();
+
+            var matchingAccounts = accounts.Where(a => lines.Any(l => l.Contains(a.UniqueStatementString ?? string.Empty))).ToList();
+
             if (matchingAccounts.Count == 0)
             {
-                _logger.LogError("No account found that matches the statement file content.");
-                _logger.LogInformation("Available unique statement strings:");
-                foreach (var accountWithString in accountsWithUniqueString)
-                {
-                    _logger.LogInformation("  Account {AccountId}: {UniqueStatementString}", accountWithString.Id, accountWithString.UniqueStatementString);
-                }
+                logger.LogError($"No matching account found for the statement file {filename}");
                 return;
             }
-            
+
             if (matchingAccounts.Count > 1)
             {
-                _logger.LogError("Multiple accounts match the statement file content:");
-                foreach (var accountWithString in matchingAccounts)
-                {
-                    _logger.LogError("  Account {AccountId}: {UniqueStatementString}", accountWithString.Id, accountWithString.UniqueStatementString);
-                }
+                var matchingAccountIdsString = String.Join(", ", matchingAccounts.Select(a => a.Id));
+                logger.LogError($"Multiple accounts found matching the statement file: {matchingAccountIdsString}");
                 throw new InvalidOperationException("Statement file matches multiple accounts. Please ensure UniqueStatementString values are unique.");
             }
-            
-            accountId = matchingAccounts[0].Id;
-            var account = matchingAccounts[0];
-            
-            _logger.LogInformation("Detected account: {AccountId}", accountId);
 
-            if (string.IsNullOrEmpty(account.FormatName))
-            {
-                _logger.LogError("No statement format found for account {AccountId}", accountId);
-                return;
-            }
+            var account = matchingAccounts.First();
+
+            logger.LogInformation("Detected account: {AccountId}", account.Id);
 
             if (!_formatProvider.GetAvailableFormats().Contains(account.FormatName))
             {
-                _logger.LogError("Format '{FormatName}' not found. Available formats: {AvailableFormats}", account.FormatName, string.Join(", ", _formatProvider.GetAvailableFormats()));
+                logger.LogError("Format '{FormatName}' not found. Available formats: {AvailableFormats}",
+                    account.FormatName, string.Join(", ", _formatProvider.GetAvailableFormats()));
                 return;
             }
-            
-            var format = _formatProvider.Get(account.FormatName);
-            ILogger parserLogger = _loggerFactory.CreateLogger(String.Empty);            
-            var parser = new StatementParser { Format = format, Logger = parserLogger };
 
-            _logger.LogInformation("-------------------------------- Parsing the statement file --------------------------------");
+            var format = _formatProvider.Get(account.FormatName!);
+            if (format == null)
+            {
+                logger.LogError("Format '{FormatName}' not found. Available formats: {AvailableFormats}",
+                    account.FormatName, string.Join(", ", _formatProvider.GetAvailableFormats()));
+                return;
+            }
+            var parser = new StatementParser { Format = format, Logger = loggerFactory.CreateLogger(String.Empty) };
+
+            logger.LogInformation("-------------------------------- Parsing the statement file --------------------------------");
 
             var importedTransactions = parser.Parse(lines);
 
-            _logger.LogInformation("-------------------------------- Importing transactions --------------------------------");
+            logger.LogInformation("-------------------------------- Importing transactions --------------------------------");
 
-            var newTransactions = new List<Transaction>();
-            var alreadyExistingCount = 0;
-            
-            foreach (var importedTransaction in importedTransactions)
+            var transactionsToAdd = importedTransactions.Select(t => new Transaction()
             {
-                var transaction = new Transaction
+                Date = t.Date.ToDateTime(TimeOnly.MinValue),
+                Amount = t.Amount,
+                Details = t.Details,
+                ExtraDetails = t.ExtraDetails,
+                CurrencyDetails = t.CurrencyDetails,
+                AccountId = account.Id,
+                IsActive = true
+            });
+
+            var classifiedTransactions = await transactionRepository.ClassifyByExistenceAsync(transactionsToAdd);
+
+            if (classifiedTransactions.Existing.Any())
+            {
+                logger.LogWarning("The following transactions already exist:\n{Transactions}",
+                    String.Join("\n", classifiedTransactions.Existing.Select(t => $"\t\t{t.Date} -- {t.Amount} -- {t.Details}")));
+
+                if (format.DuplicateTransactionBehavior == DuplicateTransactionBehavior.AbortOnDuplicate)
                 {
-                    Date = importedTransaction.Date.ToDateTime(TimeOnly.MinValue),
-                    Amount = importedTransaction.Amount,
-                    Details = importedTransaction.Details,
-                    ExtraDetails = importedTransaction.ExtraDetails,
-                    CurrencyDetails = importedTransaction.CurrencyDetails,
-                    AccountId = accountId,
-                    IsActive = true
-                };
-                                
-                // Check if transaction already exists
-                if (!await _transactionRepository.ExistsAsync(transaction))
-                {
-                    newTransactions.Add(transaction);
-                    var message = $"New transaction: {transaction.Date} -- {transaction.Amount} -- {transaction.Details} -- {transaction.Comment}" + 
-                        (importedTransaction.CurrencyDetails != null ? $" [{importedTransaction.CurrencyDetails}]" : "");
-                    _logger.LogInformation(message);
-                }
-                else
-                {
-                    alreadyExistingCount ++;
-                    _logger.LogWarning("Transaction already exists: {Date} -- {Amount} -- {Details}", transaction.Date, transaction.Amount, transaction.Details);
+                    logger.LogError("Some transactions already exist. The {Format} format does not support skipping existing transactions.", account.FormatName);
+                    return;
                 }
             }
-            if (alreadyExistingCount > 0 && !forceImportSkipDuplicates)
-            {
-                _logger.LogError("Some transactions already exist. Please use the --skip-duplicates option to import the statement anyway and skip those transactions.");
-                return;
-            }
 
-            if (newTransactions.Any())
+            if (classifiedTransactions.New.Any())
             {
-                await _transactionRepository.AddRangeAsync(newTransactions);
+                await transactionRepository.AddRangeAsync(classifiedTransactions.New);
                 await dbContextTransaction.CommitAsync();
                 isCommited = true;
-                _logger.LogInformation("Successfully imported {Count} new transactions.", newTransactions.Count);
-                if (alreadyExistingCount > 0)
+                logger.LogInformation("Successfully imported {Count} new transactions.", classifiedTransactions.New.ToList().Count);
+                if (classifiedTransactions.Existing.Any())
                 {
-                    _logger.LogInformation("Skipped {Count} transactions that already exist.", alreadyExistingCount);
+                    logger.LogInformation("Skipped {Count} transactions that already exist.", classifiedTransactions.Existing.ToList().Count);
                 }
             }
             else
             {
-                _logger.LogInformation("No new transactions to import.");
+                logger.LogInformation("No new transactions to import.");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error importing transactions: {Message}", ex.Message);
+            logger.LogError(ex, "Error importing transactions: {Message}", ex.Message);
             throw;
         }
         finally 
         {
             if (!isCommited) 
             {
-                _logger.LogInformation("No transactions are imported");                
+                logger.LogInformation("No transactions are imported");                
             }
         }
     }

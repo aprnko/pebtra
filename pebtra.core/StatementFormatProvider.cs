@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Pebtra.Core;
+namespace pebtra.core;
 
 public class StatementFormatProvider
 {
@@ -139,6 +139,7 @@ public class StatementFormatProvider
                     NumberCulture = "ru-RU",
                     IsReverseOrder = false,
                     DoFilterDates = true,
+                    DuplicateTransactionBehavior = DuplicateTransactionBehavior.SkipDuplicates,
                     LineFormats =
                     [
                         new StatementLineFormat
@@ -607,16 +608,8 @@ public class StatementFormatProvider
             }
         };
 
-    public StatementFormat Get(string formatName)
-    {
-        if (string.IsNullOrEmpty(formatName) || !_formats.ContainsKey(formatName))
-        {
-            // Default to Kaspi if format not found
-            formatName = "Kaspi";
-        }
-
-        return _formats[formatName];
-    }
+    public StatementFormat? Get(string formatName) =>
+        _formats.ContainsKey(formatName) ? _formats[formatName] : null;
 
     public IEnumerable<string> GetAvailableFormats()
     {

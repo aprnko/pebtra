@@ -10,4 +10,6 @@ public class StatementFormat
     public string DateFormat { get; set; } = "dd.MM.yyyy";
     public string NumberFormat { get; set; } = "N2";
     public string NumberCulture { get; set; } = "ru-RU";
+    public DuplicateTransactionBehavior DuplicateTransactionBehavior { get; set; } =
+        DuplicateTransactionBehavior.AbortOnDuplicate;
 } 

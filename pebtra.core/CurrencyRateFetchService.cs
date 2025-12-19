@@ -6,7 +6,7 @@ using pebtra.DAL;
 using pebtra.core.Utils;
 using pebtra.core.Dto;
 
-namespace Pebtra.Core;
+namespace pebtra.core;
 
 public class CurrencyRateFetchService
 {
